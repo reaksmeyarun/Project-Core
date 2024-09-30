@@ -1,8 +1,3 @@
-
-To make your README document visually appealing and well-structured on GitHub, you can use proper Markdown syntax for headings, lists, and code blocks. Here’s the same content, formatted for better readability and presentation on GitHub:
-
-markdown
-Copy code
 # Clean Architecture Project
 
 ## Overview
