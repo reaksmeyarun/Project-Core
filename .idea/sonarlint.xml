@@ -3,7 +3,8 @@
   <component name="SonarLintProjectSettings">
     <option name="moduleMapping">
       <map>
-        <entry key="core" value="common-module" />
+        <entry key="gateway" value="api-gateway" />
+        <entry key="sbi_core" value="common-module" />
         <entry key="users-service" value="users_module" />
       </map>
     </option>

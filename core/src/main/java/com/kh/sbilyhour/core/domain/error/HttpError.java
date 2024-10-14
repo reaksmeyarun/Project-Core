@@ -1,6 +1,7 @@
 package com.kh.sbilyhour.core.domain.error;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -11,8 +12,8 @@ import java.util.List;
  * HTTP processing, including an error code and a list of specific errors.
  * </P>
  */
-@Builder
 @Data
+@NoArgsConstructor
 public class HttpError {
 
     /**
@@ -33,4 +34,5 @@ public class HttpError {
         this.code = code;
         this.errors = errors;
     }
+
 }

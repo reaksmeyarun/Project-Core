@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+gateway:
+  uri: http://localhost:8081
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user
+          uri: ${gateway.uri} # Use the placeholder here
+          predicates:
+            - Path=/user/v1/**
+          filters:
+            - RewritePath=/user/v1/(?<operation>.*), /user/v1/${operation}
+            - ValidateHost
+      validate-host:
+        allowed-hosts:
+          - localhost
+          - dev.example.com  # Allowed hosts in development

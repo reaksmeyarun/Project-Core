@@ -1,17 +1,18 @@
 package com.kh.sbilyhour.core.infrastructure.exception;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kh.sbilyhour.core.domain.model.ResponseWrapper;
-import com.kh.sbilyhour.core.domain.status.Status;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.kh.sbilyhour.core.domain.error.ApiError;
 import com.kh.sbilyhour.core.domain.error.HttpError;
+import com.kh.sbilyhour.core.domain.model.ResponseWrapper;
+import com.kh.sbilyhour.core.domain.status.Status;
 import org.slf4j.Logger;
+import org.springframework.validation.FieldError;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -127,7 +128,7 @@ public class ExceptionResponseHandler {
                 .map(FieldError::getDefaultMessage) // This should return String
                 .filter(Objects::nonNull) // Filter out null values
                 .filter(message -> !message.trim().isEmpty()) // Filter out empty messages
-                .map(message -> new ApiError(message)) // Explicitly create a new Error instance
+                .map(ApiError::new) // Explicitly create a new Error instance
                 .toList();
         return createErrorResponse(Status.FAIL, errorMessages, HttpStatus.BAD_REQUEST.value());
     }
@@ -185,10 +186,14 @@ public class ExceptionResponseHandler {
      */
     private String getErrorMessage(String responseBody) {
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(responseBody);
-            JsonNode errorNode = rootNode.path("error").path("message");
-            return errorNode.isMissingNode() ? "Unknown error occurred" : errorNode.asText();
+            // Parse the JSON string into a JsonObject using Gson
+            JsonElement jsonElement = JsonParser.parseString(responseBody);
+            JsonObject rootObject = jsonElement.getAsJsonObject();
+
+            // Navigate to the error message (rootObject -> error -> message)
+            JsonObject errorObject = rootObject.has("error") ? rootObject.getAsJsonObject("error") : null;
+
+            return (errorObject != null && errorObject.has("message")) ? errorObject.get("message").getAsString() : "Unknown error occurred";
         } catch (Exception e) {
             return "Error parsing error message: " + e.getMessage();
         }
