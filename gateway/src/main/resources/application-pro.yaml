@@ -1,0 +1,21 @@
+server:
+  port: 8443
+
+gateway:
+  uri: http://localhost:8443
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user
+          uri: ${gateway.uri} # Use the placeholder here
+          predicates:
+            - Path=/user/v1/**
+          filters:
+            - RewritePath=/user/v1/(?<operation>.*), /user/v1/${operation}
+            - ValidateHost
+      validate-host:
+        allowed-hosts:
+          - localhost
+          - api.example.com  # Allowed hosts in production

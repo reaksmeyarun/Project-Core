@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SonarLintProjectSettings">
+    <option name="moduleMapping">
+      <map>
+        <entry key="gateway" value="api-gateway" />
+        <entry key="sbi_core" value="common-module" />
+        <entry key="users-service" value="users_module" />
+      </map>
+    </option>
+  </component>
+</project>
