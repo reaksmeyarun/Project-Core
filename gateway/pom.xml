@@ -16,6 +16,7 @@
 		<spring-cloud-starter-gateway.version>4.1.5</spring-cloud-starter-gateway.version>
 		<spring-cloud.version>2023.0.3</spring-cloud.version>
 		<spring-cloud-starter-kubernetes.version>1.1.10.RELEASE</spring-cloud-starter-kubernetes.version>
+		<netty-all.version>4.1.114.Final</netty-all.version>
 	</properties>
 
 	<dependencyManagement>
@@ -37,11 +38,19 @@
 			<artifactId>spring-cloud-starter-gateway</artifactId>
 			<version>${spring-cloud-starter-gateway.version}</version>
 		</dependency>
+
 		<!-- Kubernetes Integration -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-kubernetes</artifactId>
 			<version>${spring-cloud-starter-kubernetes.version}</version>
+		</dependency>
+
+		<!-- Netty -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>${netty-all.version}</version>
 		</dependency>
 
 	</dependencies>

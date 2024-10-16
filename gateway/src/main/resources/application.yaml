@@ -1,5 +1,16 @@
+server:
+  port: 8080
+
+gateway:
+  user-service-uri: http://localhost:8082
+
 spring:
   cloud:
     gateway:
-      validate-host:
-        enabled: true  # Enable host validation globally
+      routes:
+        - id: user
+          uri: ${gateway.user-service-uri} # Use the placeholder here
+          predicates:
+            - Path=/user/v1/**
+          filters:
+            - RewritePath=/user/v1/(?<operation>.*), /user/v1/${operation}
